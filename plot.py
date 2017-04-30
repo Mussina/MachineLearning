@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+
 # y = wx + b
 def add_layer(input, in_size, out_size, activate_fnction = None):
 	Weight = tf.Variable(tf.random_normal([in_size, out_size]))
@@ -30,12 +31,20 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
+# draw pic
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+ax.scatter(x_data,y_data)
+plt.ion() # block = false
+plt.show()
 
 for i in range(1000):
 	sess.run(train, feed_dict={xs:x_data, ys:y_data})
 	if i % 50 == 0:
-		print("loss:[%f] xs:[%f]" 
-		% (sess.run(loss, feed_dict={xs:x_data, ys:y_data}), sess.run(feed_dict={xs:x_data})  ) )
+		predict_value = sess.run(prediction, feed_dict={xs:x_data})
+		lines = ax.plot(x_data,predict_value, 'r-', lw = 5)
+		plt.pause(0.3)
+		ax.lines.remove(lines[0])
 	
 	
 	
