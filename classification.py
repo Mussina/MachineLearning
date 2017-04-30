@@ -41,6 +41,8 @@ prediction = add_layer(xs , 784 , 10, tf.nn.softmax)
 
 # loss function
 with tf.name_scope('loss'):
+	#cross_entropy = tf.reduce_mean(
+      #tf.nn.softmax_cross_entropy_with_logits(labels=ys, logits=prediction))
 	cross_entropy = tf.reduce_mean( -tf.reduce_sum(ys * tf.log(prediction), reduction_indices=[1] ))
 
 	
@@ -58,7 +60,6 @@ for i in range(1000):
 	sess.run(train_step, feed_dict={xs:batch_xs, ys:batch_ys})
 	if i % 50 == 0:
 		print(compute_accuracy(mnist.test.images, mnist.test.labels))
-
 
 
 
